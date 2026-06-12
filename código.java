@@ -1,35 +1,58 @@
-public class Carro {
-    public String modelo;
-    public int ano;
-    public double preco;
+import java.util.Scanner;
 
-    // 1. Construtor Padrão (sem parâmetros)
-    public Carro() {
-        this.modelo = "Desconhecido";
-        this.ano = 2026;
-        this.preco = 0.0;
-    }
-
-    // 2. Construtor com Parâmetros
-    public Carro(String modelo, int ano, double preco) {
-        this.modelo = modelo;
-        this.ano = ano;
-        this.preco = preco;
-    }
-
-    // 3. Construtor reaproveitando outro (Encadeamento)
-    public Carro(String modelo) {
-        this(modelo, 2026, 30000.0); // Chama o construtor com 3 parâmetros
-    }
-
+public class SistemaBancario {
     public static void main(String[] args) {
-        // Instanciação usando os diferentes construtores
-        Carro carro1 = new Carro(); 
-        Carro carro2 = new Carro("Sedan", 2025, 85000.00);
-        Carro carro3 = new Carro("SUV"); 
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.print("Digite o nome do titular: ");
+        String titular = scanner.nextLine();
+        
+        double saldo = 0.0;
+        int opcao;
 
-        System.out.println("Carro 1: " + carro1.modelo + " - " + carro1.ano);
-        System.out.println("Carro 2: " + carro2.modelo + " - " + carro2.ano);
-        System.out.println("Carro 3: " + carro3.modelo + " - " + carro3.preco);
+        do {
+            System.out.println("\n--- MENU ---");
+            System.out.println("1. Consultar Saldo");
+            System.out.println("2. Depositar");
+            System.out.println("3. Sacar");
+            System.out.println("4. Sair");
+            System.out.print("Escolha uma opção: ");
+            opcao = scanner.nextInt();
+
+            switch (opcao) {
+                case 1:
+                    System.out.printf("Seu saldo atual é: R$ %.2f\n", saldo);
+                    break;
+                case 2:
+                    System.out.print("Digite o valor para depósito: R$ ");
+                    double deposito = scanner.nextDouble();
+                    if (deposito > 0) {
+                        saldo += deposito;
+                        System.out.printf("Depósito de R$ %.2f realizado com sucesso.\n", deposito);
+                    } else {
+                        System.out.println("Valor inválido.");
+                    }
+                    break;
+                case 3:
+                    System.out.print("Digite o valor para saque: R$ ");
+                    double saque = scanner.nextDouble();
+                    if (saque > 0 && saque <= saldo) {
+                        saldo -= saque;
+                        System.out.printf("Saque de R$ %.2f realizado com sucesso.\n", saque);
+                    } else if (saque > saldo) {
+                        System.out.println("Saldo insuficiente.");
+                    } else {
+                        System.out.println("Valor inválido.");
+                    }
+                    break;
+                case 4:
+                    System.out.println("Saindo... Obrigado por usar o sistema!");
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
+            }
+        } while (opcao != 4);
+
+        scanner.close();
     }
 }
